@@ -2,7 +2,7 @@
 #include <random>
 #include <iostream>
 #include <cmath>
-void VectorAdd(int* a, int* b, int* c, int n)
+void Multiply(int* a, int* b, int* c, int n)
 {
 	int i;
 
@@ -30,7 +30,7 @@ int main()
 		c[i] = 0;
 	}
 
-	VectorAdd(a, b, c, SIZE);
+	Multiply(a, b, c, SIZE);
 
 	for (int i = 0; i < SIZE; ++i)
 		printf("c[%d] = %d\n", i, c[i]);
