@@ -2,7 +2,8 @@
 #include <random>
 #include <iostream>
 #include <cmath>
-void Multiply(int* a, int* b, int* c, int n)
+#include <chrono>
+void VectorAdd(int* a, int* b, int* c, int n)
 {
 	int i;
 
@@ -29,12 +30,17 @@ int main()
     std::cout<<b[i]<<std::endl;
 		c[i] = 0;
 	}
-
-	Multiply(a, b, c, SIZE);
+    //старт времени
+    auto start_time = std::chrono::steady_clock::now();
+	VectorAdd(a, b, c, SIZE);
 
 	for (int i = 0; i < SIZE; ++i)
 		printf("c[%d] = %d\n", i, c[i]);
 
+ auto end_time = std::chrono::steady_clock::now();
+    auto elapsed_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
+    std::cout << std::endl;
+    std::cout << elapsed_ns.count() << " ns\n";
 	free(a);
 	free(b);
 	free(c);
