@@ -3,41 +3,41 @@
 #include <omp.h>
 #include <chrono>
 #include <ctime>
+#include <fstream>
 using namespace std;
 
 int main() {
 
+    std::ofstream out("point2.txt");
+
+    for(int j=1;j<=10;j++){
+
+    int width,height,SIZE;
+	width = 500*j;
+	height = 1000;
+	SIZE = width * height;
 
 
-    long long rows1, cols1, rows2, cols2;
-    cout << "Enter the number of rows and columns for Matrix 1: ";
-    cin >> rows1 >> cols1;
-    cout << "Enter the number of rows and columns for Matrix 2: ";
-    cin >> rows2 >> cols2;
 
-    if (cols1 != rows2) {
-        cout << "Matrix multiplication is not possible. The number of columns in Matrix 1 must be equal to the number of rows in Matrix 2." << endl;
-        return 1;
-    }
-
-
-    vector<vector<long long>> M1(rows1, vector<long long>(cols1));
-    vector<vector<long long>> M2(rows2, vector<long long>(cols2));
-    vector<vector<long long>> M_result(rows1, vector<long long>(cols2, 0));
+    vector<vector<int>> M1(width, vector<int>(height));
+    vector<vector<int>> M2(width, vector<int>(height));
+    vector<vector<int>> M_result(height, vector<int>(height));
 
     // Ввод элементов для первой матрицы
     cout << "Enter the elements of Matrix 1:" << endl;
-    for (int i = 0; i < rows1; ++i) {
-        for (int j = 0; j < cols1; ++j) {
-            cin >> M1[i][j];
+    for (int i = 0; i < width; ++i) {
+        for (int j = 0; j < height; ++j) {
+           // cin >>  i*abs(rand()%100);
+           M1[i][j]=i*abs(rand()%100);
         }
     }
 
     // Ввод элементов для второй матрицы
     cout << "Enter the elements of Matrix 2:" << endl;
-    for (int i = 0; i < rows2; ++i) {
-        for (int j = 0; j < cols2; ++j) {
-            cin >> M2[i][j];
+    for (int i = 0; i < width; ++i) {
+        for (int j = 0; j < height; ++j) {
+           // cin >> 
+           M2[i][j]=i*abs(rand()%100);
         }
     }
 
@@ -45,25 +45,26 @@ int main() {
     auto start_time = std::chrono::steady_clock::now();
     // паралелизм
 #pragma omp parallel for shared(M1, M2, M_result) collapse(2)
-    for (int i = 0; i < rows1; ++i) {
-        for (int j = 0; j < cols2; ++j) {
-            for (int k = 0; k < cols1; ++k) {
-                M_result[i][j] += M1[i][k] * M2[k][j];
-            }
+    for (int i = 0; i < width; ++i) {
+        for (int j = 0; j < height; ++j) {
+          //  for (int k = 0; k < cols1; ++k) {
+                M_result[i][j] += M1[i][j] * M2[i][j];
+            
         }
     }
     auto end_time = std::chrono::steady_clock::now();
     auto elapsed_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
-    cout << endl;
-    std::cout << elapsed_ns.count() << " ns\n";
+  //  cout << endl;
+    out << elapsed_ns.count() << " ns\n";
     // Выводим результат
-    cout << "Result Matrix:" << endl;
-    for (int i = 0; i < rows1; ++i) {
-        for (int j = 0; j < cols2; ++j) {
-            cout << M_result[i][j] << " ";
-        }
-        cout << endl;
+  //  cout << "Result Matrix:" << endl;
+    //for (int i = 0; i < width; ++i) {
+      //  for (int j = 0; j < cols2; ++j) {
+          //  cout << M_result[i][j] << " ";
+      //  }
+     //   cout << endl;
+    //}
     }
-
+out.close();
     return 0;
 }
