@@ -15,9 +15,9 @@ void VectorAdd(int* a, int* b, int* c, int n)
 int main()
 {
   std::ofstream out("points.txt");
-  for(int j=0;j<100;j++){
+  for(int j=1;j<=10;j++){
 	int* a, * b, * c, width,height,SIZE;
-	width = 500*j;
+	width = 5000*j;
 	height = 1000;
 	SIZE = width * height;
 
@@ -42,13 +42,14 @@ int main()
 
  auto end_time = std::chrono::steady_clock::now();
     auto elapsed_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end_time - start_time);
-    std::cout << std::endl;
-    std::cout << elapsed_ns.count() << " ns\n";
+//    std::cout << std::endl;
+   // std::cout << elapsed_ns.count() << " ns\n";
 	free(a);
 	free(b);
 	free(c);
  
 	out << elapsed_ns.count() <<std::endl;
   }
+	out.close();
   return 0;
 }
