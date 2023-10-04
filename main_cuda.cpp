@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <chrono>
+#include <fstream>
 void VectorAdd(int* a, int* b, int* c, int n)
 {
 	int i;
@@ -13,9 +14,11 @@ void VectorAdd(int* a, int* b, int* c, int n)
 
 int main()
 {
+  std::ofstream out("points.txt");
+  for(int j=0;j<100;j++){
 	int* a, * b, * c, width,height,SIZE;
-	width = 2;
-	height = 2;
+	width = 500*j;
+	height = 1000;
 	SIZE = width * height;
 
 	a = (int*)malloc(SIZE * sizeof(int));
@@ -44,6 +47,8 @@ int main()
 	free(a);
 	free(b);
 	free(c);
-
-	return 0;
+ 
+	out << elapsed_ns.count() <<std::endl;
+  }
+  return 0;
 }
